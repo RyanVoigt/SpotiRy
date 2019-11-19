@@ -1,0 +1,257 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Spotify Statistics</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <style type="text/css">
+      #login, #loggedin {
+        display: none;
+      }
+      .text-overflow {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 500px;
+      }
+      .center-image{
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <div id="login">
+        <h1>This is an example of the Authorization Code flow</h1>
+        <a href="/login" class="btn btn-primary">Log in with Spotify</a>
+      </div>
+      <div id="loggedin">
+        <div id="user-profile">
+        </div>
+        <div id="oauth">
+        </div>
+        <button class="btn btn-default" id="obtain-new-token">Obtain new token using the refresh token</button>
+      </div>
+      <div class="container" id="following">
+        <h3>Following</h3>
+      </div>
+      <div class="container" id="tracks">
+        <h3>Top Tracks</h3>
+      </div>
+      </div>
+    </div>
+
+    <script id="user-profile-template" type="text/x-handlebars-template">
+      <h1>{{display_name}}</h1>
+      <div class="media">
+        <div class="pull-left">
+          <img class="center-image" width="150" src="{{images.0.url}}" />
+        </div>
+        <div class="media-body" style="margin-top: 35px">
+          <dl class="dl-horizontal">
+            <dt>Display name</dt><dd class="clearfix">{{display_name}}</dd>
+            <dt>Id</dt><dd>{{id}}</dd>
+            <dt>Email</dt><dd>{{email}}</dd>
+            <dt>Spotify URI</dt><dd><a href="{{external_urls.spotify}}">{{external_urls.spotify}}</a></dd>
+            <dt>Link</dt><dd><a href="{{href}}">{{href}}</a></dd>
+            <dt>Profile Image</dt><dd class="clearfix"><a href="{{images.0.url}}">{{images.0.url}}</a></dd>
+            <dt>Country</dt><dd>{{country}}</dd>
+          </dl>
+        </div>
+      </div>
+
+    </script>
+
+
+
+    <script id="following-template" type="text/x-handlebars-template">
+      <h2>Followed artists</h2>
+      <dl class="dl-horizontal">
+        <dt>Following</dt><dd>{{following}}</dd>
+      </dl>
+    </script>
+
+    <script id="tracks-template" type="text/x-handlebars-template">
+      <h2>Top Tracks</h2>
+      <dl class="dl-horizontal">
+        <dt>Tracks</dt><dd>{{tracks}}</dd>
+      </dl>
+    </script>
+
+    <script id="oauth-template" type="text/x-handlebars-template">
+      <h2>oAuth info</h2>
+      <dl class="dl-horizontal">
+        <dt>Access token</dt><dd class="text-overflow">{{access_token}}</dd>
+        <dt>Refresh token</dt><dd class="text-overflow">{{refresh_token}}</dd>
+      </dl>
+    </script>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0-alpha.1/handlebars.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script>
+      (function() {
+
+        /**
+         * Obtains parameters from the hash of the URL
+         * @return Object
+         */
+        function getHashParams() {
+          var hashParams = {};
+          var e, r = /([^&;=]+)=?([^&;]*)/g,
+              q = window.location.hash.substring(1);
+          while ( e = r.exec(q)) {
+             hashParams[e[1]] = decodeURIComponent(e[2]);
+          }
+          return hashParams;
+        }
+
+        var userProfileSource = document.getElementById('user-profile-template').innerHTML,
+            userProfileTemplate = Handlebars.compile(userProfileSource),
+            userProfilePlaceholder = document.getElementById('user-profile');
+
+
+/** USING A VARIABLE TO REPRESENT THE BODY HTML ABOVE SO I CAN FILL IT USING AJAX
+ * */
+
+        var followingSource = document.getElementById('following-template').innerHTML,
+            followingTemplate = Handlebars.compile(followingSource),
+            followingPlaceholder = document.getElementById('following');
+            
+        var tracksSource = document.getElementById('tracks-template').innerHTML,
+            tracksTemplate = Handlebars.compile(tracksSource),
+            tracksPlaceholder = document.getElementById('tracks');
+
+        var oauthSource = document.getElementById('oauth-template').innerHTML,
+            oauthTemplate = Handlebars.compile(oauthSource),
+            oauthPlaceholder = document.getElementById('oauth');
+
+        var params = getHashParams();
+
+        var access_token = params.access_token,
+            refresh_token = params.refresh_token,
+            error = params.error;
+
+        function parseFollowedArtists(resp) {
+          return resp.artists.items.map((artist) => {
+            return {
+              name: artist.name,
+              genres: artist.genres
+            }
+          });
+        }
+        function parseTopTracks(resp) {
+          return resp.items.map((song) => {
+            return {
+              name: song.name,
+              artist: song.album.artists
+            }
+          });
+        }
+
+        function generateFollowedArtistsListElems(arr) {
+          return arr.map((item) => {
+            chips = item.genres.reduce((elems, genre) => {
+              return elems + `<span class="badge pull-right" style="margin: 0 2px;">${genre}</span>`
+            }, "");
+
+            return `
+              <div class="panel panel-default">
+                <div class="panel-body">
+                  ${item.name}
+                  ${chips}
+                  </div>
+              </div>
+            `;
+          });
+        }
+        function generateTopTracksListElems(arr) {
+          return arr.map((item) => {
+            chips = item.artist.reduce((elems, name) => {
+              return elems + `<span class="badge pull-right" style="margin: 0 2px;">${name.name}</span>`
+            }, "");
+
+            return `
+              <div class="panel panel-default">
+                <div class="panel-body">
+                  ${item.name}
+                  ${chips}
+                  </div>
+              </div>
+            `;
+          });
+        }
+
+        if (error) {
+          alert('There was an error during the authentication');
+        } else {
+          if (access_token) {
+            // render oauth info
+            oauthPlaceholder.innerHTML = oauthTemplate({
+              access_token: access_token,
+              refresh_token: refresh_token
+            });
+
+            $.ajax({
+                url: 'https://api.spotify.com/v1/me',
+                headers: {
+                  'Authorization': 'Bearer ' + access_token
+                },
+                success: function(response) {
+                  userProfilePlaceholder.innerHTML = userProfileTemplate(response);
+
+                  $('#login').hide();
+                  $('#loggedin').show();
+                }
+            });
+            /** 
+             * USING AJAX TO FILL THE VARIABLE WE MADE ABOVE FOR FOLLOWING ARTIST WITH A API REQUEST RESPONSE
+            **/
+            $.ajax({
+                url: 'https://api.spotify.com/v1/me/following?type=artist',
+                headers: {
+                  'Authorization': 'Bearer ' + access_token
+                },
+                success: function(response) {
+                    artists = parseFollowedArtists(response);
+                    elements = generateFollowedArtistsListElems(artists);
+                    $(followingPlaceholder).append(elements);
+                }
+            })
+            $.ajax({
+                url: 'https://api.spotify.com/v1/me/top/tracks?limit=50',
+                headers: {
+                  'Authorization': 'Bearer ' + access_token
+                },
+                success: function(response) {
+                    songs = parseTopTracks(response);
+                    elements = generateTopTracksListElems(songs);
+                    $(tracksPlaceholder).append(elements);
+                }
+            })
+          } else {
+              // render initial screen
+              $('#login').show();
+              $('#loggedin').hide();
+          }
+
+          document.getElementById('obtain-new-token').addEventListener('click', function() {
+            $.ajax({
+              url: '/refresh_token',
+              data: {
+                'refresh_token': refresh_token
+              }
+            }).done(function(data) {
+              access_token = data.access_token;
+              oauthPlaceholder.innerHTML = oauthTemplate({
+                access_token: access_token,
+                refresh_token: refresh_token
+              });
+            });
+          }, false);
+        }
+      })();
+    </script>
+  </body>
+</html>
