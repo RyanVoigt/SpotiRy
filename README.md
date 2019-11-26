@@ -1,6 +1,6 @@
-# Spotify Data Wesbite
+# Spotify Data Website
 
-## "app_secret" and "client_id" have been removed in this Github version to avoid releasing account secret to the public, if you want to run this code on your personal computer:
+## The "app_secret" and "client_id" have been removed in this Github version to avoid releasing account secret to the public, if you want to run this code on your personal computer:
 
 1) Go to https://developer.spotify.com/ and sign up for a developer account
 2) You will be given a app_secret and client_id, copy and paste these into the app.js file this allows you to make api requests to spotify
