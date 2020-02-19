@@ -1,8 +1,8 @@
 <!doctype html>
 
 <style>
-  .body{
-    background-color: #191414; 
+  .bodystyle{
+    background-image: linear-gradient(#383838,#191414 9%); 
     color: #fff;
     margin-left: 230px; /* Same as the width of the sidebar */
     padding: 0px 10px;
@@ -13,6 +13,7 @@
     width: 400px;
     height: 270px;
   }
+  
 </style>
 
 <html>
@@ -42,7 +43,7 @@
         z-index: 1; /* Stay on top */
         top: 0; /* Stay at the top */
         left: 0;
-        background-color: #1db954; /* Black */
+        background-color: black; /* Black */
         overflow-x: hidden; /* Disable horizontal scroll */
         padding-top: 20px;
       }
@@ -52,13 +53,13 @@
         padding: 6px 8px 6px 16px;
         text-decoration: none;
         font-size: 25px;
-        color: #f1f1f1;
+        color: #b3b3b3;
         display: block;
       }
 
       /* When you mouse over the navigation links, change their color */
       .sidenav a:hover {
-        color: #d6d6d6 ;
+        color: white ;
       }
 
       /* On smaller screens, where height is less than 450px, change the style of the sidebar (less padding and a smaller font size) */
@@ -73,58 +74,48 @@
   <!-- Page content -->
   <div class="main">
   </div>
-  <body class = "body">
+  <div id="login">
+    <a href="/login" class="btn btn-primary">Log in with Spotify</a>
+  </div>
+  <div id="loggedin">
+  <body class = "bodystyle">
     <div class="container">
-      <div id="login">
-        <a href="/login" class="btn btn-primary">Log in with Spotify</a>
-      </div>
-      <div id="loggedin">
+      
         <div id="user-profile">
         </div>
-        <div id="oauth">
-        </div>
-        <button class="btn btn-default" id="obtain-new-token">Obtain new token using the refresh token</button>
+          <div class="container" id="following">
+               <h3 style= "font-size: 36px;color: white; position: relative; text-align:center; vertical-align: middle; margin-top: 20px;">Following</h3>
+          </div>
+             <div style = "display: inline-block; width: 45%; vertical-align: top;">
+              <h3 style= "font-size: 36px;color: white; position: relative; text-align:center; vertical-align: middle; margin-top: 20px;">Top Tracks</h3>
+              <div style = "color: #2e2e2e" id="tracks"></div>
+              </div>
+             <div style = "display: inline-block; width: 45%; vertical-align: top; margin-left: 9%">
+              <h3 style= "font-size: 36px;color: white; position: relative; text-align:center; vertical-align: middle; margin-top: 20px;">Top Artists</h3>
+              <div style = "color: #2e2e2e" id="artist"></div>
+              </div>
       </div>
-          <div class="container" style = "color: #2e2e2e"id="following">
-               <h3>Following</h3>
-             </div>
-             <div class="container" style = "color: #2e2e2e" id="tracks">
-               <h3>Top Tracks</h3>
-             </div>
-      </div>
+    </div>
     </div>
 
     <script id="user-profile-template" type="text/x-handlebars-template">
      <div class="sidenav">
       <div>
-        <h1 style = "position: relative; text-align:center; vertical-align: middle; margin-top: 0; ">SpotiRy</h1>
-        <div class="media" style = "position: relative; text-align:center; vertical-align: middle; padding-top: 13px; margin-bottom: 10px; background-color: #1ba54b;">
+        <h1 style = "position: relative; text-align:center; vertical-align: middle; margin-top: 0; background-color: black; border-radius: 19px;">SpotiRy</h1>
+        <div class="media" style = "position: relative; text-align:center; vertical-align: middle; padding-top: 3px; margin-bottom: 10px; background-color: black;">
             <img class="center-image" width="150" src="{{images.0.url}}" />
-            <h3 style = "position: relative; text-align:center; vertical-align: middle; margin-top: 5px;">{{display_name}}</h3>
+            <h3 style = " color: white; position: relative; text-align:center; vertical-align: middle; margin-top: 5px;">{{display_name}}</h3>
 
         </div>
       </div>
       <a href="#">Interests</a>
-      <a href="#">Queue Creator</a>
+      <a href="/html/queue-creator.html">Queue Creator</a>
       <a href="#">Clients</a>
       <a href="#">Contact</a>
     </div>
-
-      <div class="media-body" style="margin-top: 35px">
-        <dl class="dl-horizontal">
-          <dt>Display name</dt><dd class="clearfix">{{display_name}}</dd>
-          <dt>Id</dt><dd>{{id}}</dd>
-          <dt>Email</dt><dd>{{email}}</dd>
-          <dt>Spotify URI</dt><dd><a href="{{external_urls.spotify}}">{{external_urls.spotify}}</a></dd>
-          <dt>Link</dt><dd><a href="{{href}}">{{href}}</a></dd>
-          <dt>Profile Image</dt><dd class="clearfix"><a href="{{images.0.url}}">{{images.0.url}}</a></dd>
-          <dt>Country</dt><dd>{{country}}</dd>
-          <dt><a href="/html/queue-creator.html"class="btn btn-primary">Queue Creator</a></dt>
-        </dl>
-      </div>
     </script>
 
-    <script id="following-template" type="text/x-handlebars-template">
+    <script id="following-template" type="text/x-handlebars-template" >
       <h2>Followed artists</h2>
       <dl class="dl-horizontal">
         <dt>Following</dt><dd>{{following}}</dd>
@@ -132,17 +123,15 @@
     </script>
 
     <script id="tracks-template" type="text/x-handlebars-template">
-      <h2>Top Tracks</h2>
+      <h2 >Top Tracks</h2>
       <dl class="dl-horizontal">
         <dt>Tracks</dt><dd>{{tracks}}</dd>
       </dl>
     </script>
-
-    <script id="oauth-template" type="text/x-handlebars-template">
-      <h2>oAuth info</h2>
+    <script id="artist-template" type="text/x-handlebars-template">
+      <h2 >Top Artists</h2>
       <dl class="dl-horizontal">
-        <dt>Access token</dt><dd class="text-overflow">{{access_token}}</dd>
-        <dt>Refresh token</dt><dd class="text-overflow">{{refresh_token}}</dd>
+        <dt>Artist</dt><dd>{{artist}}</dd>
       </dl>
     </script>
 
@@ -181,9 +170,9 @@
             tracksTemplate = Handlebars.compile(tracksSource),
             tracksPlaceholder = document.getElementById('tracks');
 
-        var oauthSource = document.getElementById('oauth-template').innerHTML,
-            oauthTemplate = Handlebars.compile(oauthSource),
-            oauthPlaceholder = document.getElementById('oauth');
+        var artistSource = document.getElementById('artist-template').innerHTML,
+            artistTemplate = Handlebars.compile(artistSource),
+            artistPlaceholder = document.getElementById('artist');
 
         var params = getHashParams();
 
@@ -195,7 +184,9 @@
           return resp.artists.items.map((artist) => {
             return {
               name: artist.name,
-              genres: artist.genres
+              genres: artist.genres,
+              image: artist.images[0].url,
+              uri:artist.uri
             }
           });
         }
@@ -203,7 +194,19 @@
           return resp.items.map((song) => {
             return {
               name: song.name,
-              artist: song.album.artists
+              artist: song.album.artists,
+              image: song.album.images[0].url,
+              uri: song.uri,
+              album: song.album.name
+            }
+          });
+        }
+        function parseTopArtist(resp) {
+          return resp.items.map((artist) => {
+            return {
+              name: artist.name,
+              image: artist.images[0].url,
+              uri: artist.uri,
             }
           });
         }
@@ -215,26 +218,45 @@
             }, "");
 
             return `
-              <div class="panel panel-default">
-                <div class="panel-body">
-                  ${item.name}
-                  ${chips}
-                  </div>
+            <div style = "width: 160px; display: inline-block; margin: 10px; vertical-align: top;">
+              <a href="${item.uri}"><img class="center-image"; src="${item.image}"; style="width: 160px; height: 160px; border-radius:10%"></a>
+              <div style = "font-size: 15px;color: white; position: relative; text-align:center; vertical-align: middle; margin-top: 5px;">
+              ${item.name}
               </div>
+            </div>
             `;
           });
         }
         function generateTopTracksListElems(arr) {
           return arr.map((item) => {
             chips = item.artist.reduce((elems, name) => {
-              return elems + `<span class="badge pull-right" style="margin: 0 2px;">${name.name}</span>`
+              return name.name
             }, "");
 
             return `
-              <div class="panel panel-default">
-                <div class="panel-body">
-                  ${item.name}
-                  ${chips}
+              <div style = "background-color: #1f1f1f; border-width: 3px; border-radius: 14px; border-color: #252525 ;";  class="panel panel-default">
+                <a href="${item.uri}"><img class="center-image"; src="${item.image}"; style="width: 100px; height: 100px; border-radius:10%"></a>
+                <div style = "padding: 0; vertical-align: middle; color: #b3b3b3; font-size: 13px;font-weight: bold; display: inline-block" class="panel-body">
+                 <ul style="list-style-type:none; padding-left: 5px">
+                 <li style = "font-size: 18px">${item.name}</li>
+                 <li>Album: ${item.album}</li>
+                  <li>Artist: ${chips}</li>
+                  </ul>  
+                  </div>
+              </div>
+            `;
+          });
+        }
+        function generateTopArtistListElems(arr) {
+          return arr.map((item) => {
+
+            return `
+              <div style = "background-color: #1f1f1f; border-width: 3px; border-radius: 14px; border-color: #252525 ;";  class="panel panel-default">
+                <a href="${item.uri}"><img class="center-image"; src="${item.image}"; style="width: 100px; height: 100px; border-radius:10%"></a>
+                <div style = "padding: 0; vertical-align: middle; color: #b3b3b3; font-size: 15px;font-weight: bold; display: inline-block" class="panel-body">
+                 <ul style="list-style-type:none; padding-left: 5px">
+                 <li style = "font-size: 25px">${item.name}</li>
+                  </ul>  
                   </div>
               </div>
             `;
@@ -245,12 +267,6 @@
           alert('There was an error during the authentication');
         } else {
           if (access_token) {
-            // render oauth info
-            oauthPlaceholder.innerHTML = oauthTemplate({
-              access_token: access_token,
-              refresh_token: refresh_token
-            });
-
             $.ajax({
                 url: 'https://api.spotify.com/v1/me',
                 headers: {
@@ -288,28 +304,26 @@
                     $(tracksPlaceholder).append(elements);
                 }
             })
+            $.ajax({
+                url: 'https://api.spotify.com/v1/me/top/artists?limit=50',
+                headers: {
+                  'Authorization': 'Bearer ' + access_token
+                },
+                success: function(response) {
+                  
+                    artist = parseTopArtist(response);
+                    elements = generateTopArtistListElems(artist);
+                    console.log(elements);
+                    $(artistPlaceholder).append(elements);
+                }
+            })
           } else {
               // render initial screen
               $('#login').show();
               $('#loggedin').hide();
           }
-
-          document.getElementById('obtain-new-token').addEventListener('click', function() {
-            $.ajax({
-              url: '/refresh_token',
-              data: {
-                'refresh_token': refresh_token
-              }
-            }).done(function(data) {
-              access_token = data.access_token;
-              oauthPlaceholder.innerHTML = oauthTemplate({
-                access_token: access_token,
-                refresh_token: refresh_token
-              });
-            });
-          }, false);
-        }
-      })();
+      }})();
     </script>
   </body>
+</div>
 </html>
