@@ -95,8 +95,6 @@
               <div style = "color: #2e2e2e" id="artist"></div>
               </div>
       </div>
-    </div>
-    </div>
 
     <script id="user-profile-template" type="text/x-handlebars-template">
      <div class="sidenav">
@@ -220,7 +218,7 @@
             return `
             <div style = "width: 160px; display: inline-block; margin: 10px; vertical-align: top;">
               <a href="${item.uri}"><img class="center-image"; src="${item.image}"; style="width: 160px; height: 160px; border-radius:10%"></a>
-              <div style = "font-size: 15px;color: white; position: relative; text-align:center; vertical-align: middle; margin-top: 5px;">
+              <div style = "font-size: 18px;color: white; position: relative; text-align:center; vertical-align: middle; margin-top: 5px;">
               ${item.name}
               </div>
             </div>
@@ -294,7 +292,7 @@
                 }
             })
             $.ajax({
-                url: 'https://api.spotify.com/v1/me/top/tracks?limit=50',
+                url: 'https://api.spotify.com/v1/me/top/tracks?limit=30',
                 headers: {
                   'Authorization': 'Bearer ' + access_token
                 },
@@ -305,7 +303,7 @@
                 }
             })
             $.ajax({
-                url: 'https://api.spotify.com/v1/me/top/artists?limit=50',
+                url: 'https://api.spotify.com/v1/me/top/artists?limit=30',
                 headers: {
                   'Authorization': 'Bearer ' + access_token
                 },

@@ -83,7 +83,7 @@ app.get('/callback', function(req, res) {
             refresh_token = body.refresh_token;
 
         var options = {
-          url: 'https://api.spotify.com/v1/me/top/tracks?limit=100',
+          url: 'https://api.spotify.com/v1/me/top/tracks?limit=30',
           headers: { 'Authorization': 'Bearer ' + access_token },
           json: true
         };
