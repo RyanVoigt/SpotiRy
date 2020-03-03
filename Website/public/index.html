@@ -13,7 +13,18 @@
     width: 400px;
     height: 270px;
   }
-  
+  .bodystylequeue{
+    width: 100%;
+    background-image: linear-gradient(#383838,#191414 9%); 
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 200px;
+    column-gap: 10px;
+    row-gap: 1em;
+  }
+  .songcard{
+    background-color: #2e2e2e;
+  }
 </style>
 
 <html>
@@ -70,7 +81,6 @@
     </style>
   </head>
 
-  
   <!-- Page content -->
   <div class="main">
   </div>
@@ -80,9 +90,21 @@
   <div id="loggedin">
   <body class = "bodystyle">
     <div class="container">
+          <div class="sidenav">
+            <div  id="user-profile">
+              <h1 style = "position: relative; text-align:center; vertical-align: middle; margin-top: 0; background-color: black; border-radius: 19px;">SpotiRy</h1>
+              <div class="media" style = "position: relative; text-align:center; vertical-align: middle; padding-top: 3px; margin-bottom: 10px; background-color: black;">
+                  <img class="center-image" width="150" src="{{images.0.url}}" />
+                  <h3 style = " color: white; position: relative; text-align:center; vertical-align: middle; margin-top: 5px;">{{display_name}}</h3>
       
-        <div id="user-profile">
-        </div>
+              </div>
+            </div>
+            <a id="interestsButton">Interests</a>
+            <a id="queueCreatorButton">Queue Creator</a>
+            <a href="#">Clients</a>
+            <a href="#">Contact</a>
+          </div>
+          <div id = "mainPage">
           <div class="container" id="following">
                <h3 style= "font-size: 36px;color: white; position: relative; text-align:center; vertical-align: middle; margin-top: 20px;">Following</h3>
           </div>
@@ -93,25 +115,39 @@
              <div style = "display: inline-block; width: 45%; vertical-align: top; margin-left: 9%">
               <h3 style= "font-size: 36px;color: white; position: relative; text-align:center; vertical-align: middle; margin-top: 20px;">Top Artists</h3>
               <div style = "color: #2e2e2e" id="artist"></div>
+            </div>
+          </div>
+          
+          <div id="queueCreator" style = "display: none">
+            <div class= "bodystylequeue" style = "width:100%; height: 1000px;">
+              <div id = "songcard1" class = "songcard" >
+
               </div>
+              <div id = "songcard1" class = "songcard">
+
+              </div>
+              <div id = "songcard1" class = "songcard">
+
+              </div>
+              <div id = "songcard1" class = "songcard">
+
+              </div>
+            </div>
+         </div>
+          </div>
       </div>
 
+
     <script id="user-profile-template" type="text/x-handlebars-template">
-     <div class="sidenav">
       <div>
         <h1 style = "position: relative; text-align:center; vertical-align: middle; margin-top: 0; background-color: black; border-radius: 19px;">SpotiRy</h1>
         <div class="media" style = "position: relative; text-align:center; vertical-align: middle; padding-top: 3px; margin-bottom: 10px; background-color: black;">
             <img class="center-image" width="150" src="{{images.0.url}}" />
             <h3 style = " color: white; position: relative; text-align:center; vertical-align: middle; margin-top: 5px;">{{display_name}}</h3>
-
         </div>
       </div>
-      <a href="#">Interests</a>
-      <a href="/html/queue-creator.html">Queue Creator</a>
-      <a href="#">Clients</a>
-      <a href="#">Contact</a>
-    </div>
     </script>
+    
 
     <script id="following-template" type="text/x-handlebars-template" >
       <h2>Followed artists</h2>
@@ -311,7 +347,6 @@
                   
                     artist = parseTopArtist(response);
                     elements = generateTopArtistListElems(artist);
-                    console.log(elements);
                     $(artistPlaceholder).append(elements);
                 }
             })
@@ -322,6 +357,7 @@
           }
       }})();
     </script>
+    <script src="./js/Webpage.js"></script>
   </body>
 </div>
 </html>
