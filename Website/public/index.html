@@ -18,9 +18,13 @@
     background-image: linear-gradient(#383838,#191414 9%); 
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    grid-auto-rows: 200px;
+    grid-auto-rows: 250px;
     column-gap: 10px;
     row-gap: 1em;
+    width:70%; 
+    height: 1000px;
+    margin: auto;
+    padding-top: 80px;
   }
   .songcard{
     background-color: #2e2e2e;
@@ -119,7 +123,7 @@
           </div>
           
           <div id="queueCreator" style = "display: none">
-            <div class= "bodystylequeue" style = "width:100%; height: 1000px;">
+            <div class= "bodystylequeue">
               <div id = "songcard1" class = "songcard" >
 
               </div>
@@ -171,192 +175,6 @@
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0-alpha.1/handlebars.min.js"></script>
     <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-    <script>
-      (function() {
-
-        /**
-         * Obtains parameters from the hash of the URL
-         * @return Object
-         */
-        function getHashParams() {
-          var hashParams = {};
-          var e, r = /([^&;=]+)=?([^&;]*)/g,
-              q = window.location.hash.substring(1);
-          while ( e = r.exec(q)) {
-             hashParams[e[1]] = decodeURIComponent(e[2]);
-          }
-          return hashParams;
-        }
-
-        var userProfileSource = document.getElementById('user-profile-template').innerHTML,
-            userProfileTemplate = Handlebars.compile(userProfileSource),
-            userProfilePlaceholder = document.getElementById('user-profile');
-
-
-/** USING A VARIABLE TO REPRESENT THE BODY HTML ABOVE SO I CAN FILL IT USING AJAX
- * */
-
-        var followingSource = document.getElementById('following-template').innerHTML,
-            followingTemplate = Handlebars.compile(followingSource),
-            followingPlaceholder = document.getElementById('following');
-            
-        var tracksSource = document.getElementById('tracks-template').innerHTML,
-            tracksTemplate = Handlebars.compile(tracksSource),
-            tracksPlaceholder = document.getElementById('tracks');
-
-        var artistSource = document.getElementById('artist-template').innerHTML,
-            artistTemplate = Handlebars.compile(artistSource),
-            artistPlaceholder = document.getElementById('artist');
-
-        var params = getHashParams();
-
-        var access_token = params.access_token,
-            refresh_token = params.refresh_token,
-            error = params.error;
-
-        function parseFollowedArtists(resp) {
-          return resp.artists.items.map((artist) => {
-            return {
-              name: artist.name,
-              genres: artist.genres,
-              image: artist.images[0].url,
-              uri:artist.uri
-            }
-          });
-        }
-        function parseTopTracks(resp) {
-          return resp.items.map((song) => {
-            return {
-              name: song.name,
-              artist: song.album.artists,
-              image: song.album.images[0].url,
-              uri: song.uri,
-              album: song.album.name
-            }
-          });
-        }
-        function parseTopArtist(resp) {
-          return resp.items.map((artist) => {
-            return {
-              name: artist.name,
-              image: artist.images[0].url,
-              uri: artist.uri,
-            }
-          });
-        }
-
-        function generateFollowedArtistsListElems(arr) {
-          return arr.map((item) => {
-            chips = item.genres.reduce((elems, genre) => {
-              return elems + `<span class="badge pull-right" style="margin: 0 2px;">${genre}</span>`
-            }, "");
-
-            return `
-            <div style = "width: 160px; display: inline-block; margin: 10px; vertical-align: top;">
-              <a href="${item.uri}"><img class="center-image"; src="${item.image}"; style="width: 160px; height: 160px; border-radius:10%"></a>
-              <div style = "font-size: 18px;color: white; position: relative; text-align:center; vertical-align: middle; margin-top: 5px;">
-              ${item.name}
-              </div>
-            </div>
-            `;
-          });
-        }
-        function generateTopTracksListElems(arr) {
-          return arr.map((item) => {
-            chips = item.artist.reduce((elems, name) => {
-              return name.name
-            }, "");
-
-            return `
-              <div style = "background-color: #1f1f1f; border-width: 3px; border-radius: 14px; border-color: #252525 ;";  class="panel panel-default">
-                <a href="${item.uri}"><img class="center-image"; src="${item.image}"; style="width: 100px; height: 100px; border-radius:10%"></a>
-                <div style = "padding: 0; vertical-align: middle; color: #b3b3b3; font-size: 13px;font-weight: bold; display: inline-block" class="panel-body">
-                 <ul style="list-style-type:none; padding-left: 5px">
-                 <li style = "font-size: 18px">${item.name}</li>
-                 <li>Album: ${item.album}</li>
-                  <li>Artist: ${chips}</li>
-                  </ul>  
-                  </div>
-              </div>
-            `;
-          });
-        }
-        function generateTopArtistListElems(arr) {
-          return arr.map((item) => {
-
-            return `
-              <div style = "background-color: #1f1f1f; border-width: 3px; border-radius: 14px; border-color: #252525 ;";  class="panel panel-default">
-                <a href="${item.uri}"><img class="center-image"; src="${item.image}"; style="width: 100px; height: 100px; border-radius:10%"></a>
-                <div style = "padding: 0; vertical-align: middle; color: #b3b3b3; font-size: 15px;font-weight: bold; display: inline-block" class="panel-body">
-                 <ul style="list-style-type:none; padding-left: 5px">
-                 <li style = "font-size: 25px">${item.name}</li>
-                  </ul>  
-                  </div>
-              </div>
-            `;
-          });
-        }
-
-        if (error) {
-          alert('There was an error during the authentication');
-        } else {
-          if (access_token) {
-            $.ajax({
-                url: 'https://api.spotify.com/v1/me',
-                headers: {
-                  'Authorization': 'Bearer ' + access_token
-                },
-                success: function(response) {
-                  userProfilePlaceholder.innerHTML = userProfileTemplate(response);
-
-                  $('#login').hide();
-                  $('#loggedin').show();
-                }
-            });
-            /** 
-             * USING AJAX TO FILL THE VARIABLE WE MADE ABOVE FOR FOLLOWING ARTIST WITH A API REQUEST RESPONSE
-            **/
-            $.ajax({
-                url: 'https://api.spotify.com/v1/me/following?type=artist',
-                headers: {
-                  'Authorization': 'Bearer ' + access_token
-                },
-                success: function(response) {
-                    artists = parseFollowedArtists(response);
-                    elements = generateFollowedArtistsListElems(artists);
-                    $(followingPlaceholder).append(elements);
-                }
-            })
-            $.ajax({
-                url: 'https://api.spotify.com/v1/me/top/tracks?limit=30',
-                headers: {
-                  'Authorization': 'Bearer ' + access_token
-                },
-                success: function(response) {
-                    songs = parseTopTracks(response);
-                    elements = generateTopTracksListElems(songs);
-                    $(tracksPlaceholder).append(elements);
-                }
-            })
-            $.ajax({
-                url: 'https://api.spotify.com/v1/me/top/artists?limit=30',
-                headers: {
-                  'Authorization': 'Bearer ' + access_token
-                },
-                success: function(response) {
-                  
-                    artist = parseTopArtist(response);
-                    elements = generateTopArtistListElems(artist);
-                    $(artistPlaceholder).append(elements);
-                }
-            })
-          } else {
-              // render initial screen
-              $('#login').show();
-              $('#loggedin').hide();
-          }
-      }})();
-    </script>
     <script src="./js/Webpage.js"></script>
   </body>
 </div>
