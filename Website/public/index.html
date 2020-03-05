@@ -21,13 +21,16 @@
     grid-auto-rows: 250px;
     column-gap: 10px;
     row-gap: 1em;
-    width:70%; 
+    width:60%; 
     height: 1000px;
     margin: auto;
     padding-top: 80px;
   }
   .songcard{
-    background-color: #2e2e2e;
+    cursor: pointer;
+    background-color: #1f1f1f; 
+    border: 3px solid #252525;
+    border-radius: 14px; 
   }
 </style>
 
@@ -127,14 +130,13 @@
               <div id = "songcard1" class = "songcard" >
 
               </div>
-              <div id = "songcard1" class = "songcard">
+              <div id = "songcard2" class = "songcard">
 
               </div>
-              <div id = "songcard1" class = "songcard">
+              <div id = "songcard3" class = "songcard">
 
               </div>
-              <div id = "songcard1" class = "songcard">
-
+              <div id = "songcard4" class = "songcard">
               </div>
             </div>
          </div>
@@ -167,6 +169,12 @@
       </dl>
     </script>
     <script id="artist-template" type="text/x-handlebars-template">
+      <h2 >Top Artists</h2>
+      <dl class="dl-horizontal">
+        <dt>Artist</dt><dd>{{artist}}</dd>
+      </dl>
+    </script>
+    <script id="card-template" type="text/x-handlebars-template">
       <h2 >Top Artists</h2>
       <dl class="dl-horizontal">
         <dt>Artist</dt><dd>{{artist}}</dd>
