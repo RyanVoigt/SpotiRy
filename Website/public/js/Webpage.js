@@ -5,6 +5,7 @@ var songArray = []
 var uriArray = []
 var artistArray = []
 var imageArray = []
+globalIndex = []
 /**
  * Obtains parameters from the hash of the URL
  * @return Object
@@ -40,7 +41,12 @@ var artistSource = document.getElementById('artist-template').innerHTML,
 
 var cardSource = document.getElementById('card-template').innerHTML,
     artistTemplate = Handlebars.compile(cardSource),
-    cardPlaceholder = document.getElementById('songcard1');
+    cardPlaceholder1 = document.getElementById('song1');
+    cardPlaceholder2 = document.getElementById('song2');
+    cardPlaceholder3 = document.getElementById('song3');
+    cardPlaceholder4 = document.getElementById('song4');
+
+
 
 var params = getHashParams();
 
@@ -239,40 +245,125 @@ if (error) {
         $('#loggedin').hide();
     }
 }
-function regenerate(){
-
+function returnFourRandom(){
+    var arr = [];
+    while(arr.length < 4){
+        var r = Math.floor(Math.random() * 99) + 1;
+        if(arr.indexOf(r) === -1) arr.push(r);
+    }
+    return(arr)
 }
-$('#songcard1').click(function(){
-    
-    var element = `
-    <div style = "padding-top: 10px; margin:auto; width: 50%; border-radius: 18px";>
-    <a href="${uriArray[0]}"><img src="${imageArray[0]}"; style="width: 100%; height:100%; border-radius: 18px "></a>
+
+function regenerate(){
+    var randomnum = returnFourRandom()
+    globalIndex = randomnum;
+    var element1 = `
+    <div style = " width: 100%; border-radius: 18px";>
+    <img src="${imageArray[randomnum[0]]}"; style="cursor: pointer; width: 100%; height:100%; border-radius: 18px ">
     </div>
     <div style = "padding: 0; vertical-align: middle; color: #b3b3b3; font-size: 10px;font-weight: bold; text-align: center" class="panel-body">
         <ul style="list-style-type:none; padding-left: 5px">
-        <li style = "font-size: 15px">${songArray[0]}</li>
-        <li style = "font-size: 10px">${artistArray[0]}</li>
+        <li style = "font-size: 15px">${songArray[randomnum[0]]}</li>
+        <li style = "font-size: 10px">${artistArray[randomnum[0]]}</li>
         </ul>  
         </div>
-`
-    $(cardPlaceholder).append(element);
+    `
+    var element2 = `
+    <div style = " width: 100%; border-radius: 18px";>
+    <img src="${imageArray[randomnum[1]]}"; style=" curser: pointer; width: 100%; height:100%; border-radius: 18px ">
+    </div>
+    <div style = "padding: 0; vertical-align: middle; color: #b3b3b3; font-size: 10px;font-weight: bold; text-align: center" class="panel-body">
+        <ul style="list-style-type:none; padding-left: 5px">
+        <li style = "font-size: 15px">${songArray[randomnum[1]]}</li>
+        <li style = "font-size: 10px">${artistArray[randomnum[1]]}</li>
+        </ul>  
+        </div>
+    `
+    var element3 = `
+    <div style = "width: 100%; border-radius: 18px";>
+    <img  src="${imageArray[randomnum[2]]}"; style="cursor: pointer; width: 100%; height:100%; border-radius: 18px ">
+    </div>
+    <div style = "padding: 0; vertical-align: middle; color: #b3b3b3; font-size: 10px;font-weight: bold; text-align: center" class="panel-body">
+        <ul style="list-style-type:none; padding-left: 5px">
+        <li style = "font-size: 15px">${songArray[randomnum[2]]}</li>
+        <li style = "font-size: 10px">${artistArray[randomnum[2]]}</li>
+        </ul>  
+        </div>
+    `
+    var element4 = `
+    <div style = "width: 100%; border-radius: 18px";>
+    <img src="${imageArray[randomnum[3]]}"; style="cursor: pointer; width: 100%; height:100%; border-radius: 18px ">
+    </div>
+    <div style = "padding: 0; vertical-align: middle; color: #b3b3b3; font-size: 10px;font-weight: bold; text-align: center" class="panel-body">
+        <ul style="list-style-type:none; padding-left: 5px">
+        <li style = "font-size: 15px">${songArray[randomnum[3]]}</li>
+        <li style = "font-size: 10px">${artistArray[randomnum[3]]}</li>
+        </ul>  
+        </div>
+    `
+    $(cardPlaceholder1).empty();
+    $(cardPlaceholder2).empty();
+    $(cardPlaceholder3).empty();
+    $(cardPlaceholder4).empty();
+    $(cardPlaceholder1).append(element1);
+    $(cardPlaceholder2).append(element2);
+    $(cardPlaceholder3).append(element3);
+    $(cardPlaceholder4).append(element4);
+}
+
+$('#song1').click(function(){
+    $.ajax({
+        type: "POST",
+        url: ("https://api.spotify.com/v1/me/player/queue?uri=" + uriArray[globalIndex[0]]),
+        headers: {
+            'Authorization': 'Bearer ' + access_token
+        },
+      });
+    regenerate()
 });
-$('#songcard2').click(function(){
+$('#song2').click(function(){
+    $.ajax({
+        type: "POST",
+        url: ("https://api.spotify.com/v1/me/player/queue?uri=" + uriArray[globalIndex[1]]),
+        headers: {
+            'Authorization': 'Bearer ' + access_token
+        },
+      });
+    regenerate()
 
 });
-$('#songcard3').click(function(){
-
+$('#song3').click(function(){
+    $.ajax({
+        type: "POST",
+        url: ("https://api.spotify.com/v1/me/player/queue?uri=" + uriArray[globalIndex[2]]),
+        headers: {
+            'Authorization': 'Bearer ' + access_token
+        },
+      });
+    regenerate()
+console.log(uriArray)
 });
-$('#songcard4').click(function(){
+$('#song4').click(function(){
+    $.ajax({
+        type: "POST",
+        url: ("https://api.spotify.com/v1/me/player/queue?uri=" + uriArray[globalIndex[3]]),
+        headers: {
+            'Authorization': 'Bearer ' + access_token
+        },
+      });
+    regenerate()
 
 });
 
 document.getElementById("interestsButton").addEventListener("click", function(){
     document.getElementById("mainPage").style = "display: block";
     document.getElementById("queueCreator").style = "display: none";
+    
+
 });
 document.getElementById('queueCreatorButton').addEventListener("click",  function(){
     document.getElementById("mainPage").style = "display: none";
     document.getElementById("queueCreator").style = "display: block";
+    regenerate()
 });
 

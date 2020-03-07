@@ -1,11 +1,18 @@
 <!doctype html>
 
 <style>
+  @keyframes fadein {
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
+}
+@keyframes fadeout {
+  0%   { opacity: 1; }
+  100% { opacity: 0; }
+}
   .bodystyle{
     background-image: linear-gradient(#383838,#191414 9%); 
     color: #fff;
     margin-left: 230px; /* Same as the width of the sidebar */
-    padding: 0px 10px;
     }
   .greenbox{
     background-color:#1db954;
@@ -15,22 +22,17 @@
   }
   .bodystylequeue{
     width: 100%;
-    background-image: linear-gradient(#383838,#191414 9%); 
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-auto-rows: 250px;
-    column-gap: 10px;
-    row-gap: 1em;
+    row-gap: 3.5em;
     width:60%; 
     height: 1000px;
-    margin: auto;
     padding-top: 80px;
+    margin: auto
   }
-  .songcard{
-    cursor: pointer;
-    background-color: #1f1f1f; 
-    border: 3px solid #252525;
-    border-radius: 14px; 
+  .queue{
+    background-image: linear-gradient(#383838,#191414 40%); 
   }
 </style>
 
@@ -96,7 +98,7 @@
   </div>
   <div id="loggedin">
   <body class = "bodystyle">
-    <div class="container">
+    <div class="container" style = "padding: 0px">
           <div class="sidenav">
             <div  id="user-profile">
               <h1 style = "position: relative; text-align:center; vertical-align: middle; margin-top: 0; background-color: black; border-radius: 19px;">SpotiRy</h1>
@@ -112,31 +114,42 @@
             <a href="#">Contact</a>
           </div>
           <div id = "mainPage">
-          <div class="container" id="following">
-               <h3 style= "font-size: 36px;color: white; position: relative; text-align:center; vertical-align: middle; margin-top: 20px;">Following</h3>
+          <div class="container" style = "padding: 0px" >
+            <div id="following" style = "padding-left: 20px">
+              <h3 style= "font-size: 36px;color: white; position: relative; text-align:center; vertical-align: middle; margin-top: 20px;">Following</h3>
+            </div>
           </div>
-             <div style = "display: inline-block; width: 45%; vertical-align: top;">
+             <div style = "display: inline-block; width: 45%; vertical-align: top; margin-left: 2%">
               <h3 style= "font-size: 36px;color: white; position: relative; text-align:center; vertical-align: middle; margin-top: 20px;">Top Tracks</h3>
               <div style = "color: #2e2e2e" id="tracks"></div>
               </div>
-             <div style = "display: inline-block; width: 45%; vertical-align: top; margin-left: 9%">
+             <div style = "display: inline-block; width: 45%; vertical-align: top; margin-left: 5%">
               <h3 style= "font-size: 36px;color: white; position: relative; text-align:center; vertical-align: middle; margin-top: 20px;">Top Artists</h3>
               <div style = "color: #2e2e2e" id="artist"></div>
             </div>
           </div>
           
-          <div id="queueCreator" style = "display: none">
+          <div id="queueCreator" class = "queue"style = "display: none">
             <div class= "bodystylequeue">
-              <div id = "songcard1" class = "songcard" >
+              <div id = "songcard1">
+                <div id = "song1" style = "margin: auto; padding-top: 10px; width: 65%; cursor: pointer;">
 
+                </div>
               </div>
-              <div id = "songcard2" class = "songcard">
+              <div id = "songcard2">
+                <div id = "song2" style = "margin: auto; padding-top: 10px; width: 65%; cursor: pointer;">
 
+                </div>
               </div>
-              <div id = "songcard3" class = "songcard">
+              <div id = "songcard3">
+                <div id = "song3" style = "margin: auto; padding-top: 10px; width: 65%; cursor: pointer;">
 
+                </div>
               </div>
-              <div id = "songcard4" class = "songcard">
+              <div id = "songcard4">
+                <div id = "song4" style = "margin: auto; padding-top: 10px; width: 65%; cursor: pointer;">
+
+                </div>
               </div>
             </div>
          </div>
