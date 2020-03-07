@@ -10,11 +10,6 @@ var imageArray = []
  * @return Object
  */
 
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  }
-  
-
 function getHashParams() {
     var hashParams = {};
     var e, r = /([^&;=]+)=?([^&;]*)/g,
@@ -253,12 +248,12 @@ $('#songcard1').click(function(){
     <div style = "padding-top: 10px; margin:auto; width: 50%; border-radius: 18px";>
     <a href="${uriArray[0]}"><img src="${imageArray[0]}"; style="width: 100%; height:100%; border-radius: 18px "></a>
     </div>
-    <div style = "padding: 0; vertical-align: middle; color: #b3b3b3; font-size: 15px;font-weight: bold; display: inline-block" class="panel-body">
+    <div style = "padding: 0; vertical-align: middle; color: #b3b3b3; font-size: 10px;font-weight: bold; text-align: center" class="panel-body">
         <ul style="list-style-type:none; padding-left: 5px">
-        <li style = "font-size: 25px">${songArray[0]}</li>
+        <li style = "font-size: 15px">${songArray[0]}</li>
+        <li style = "font-size: 10px">${artistArray[0]}</li>
         </ul>  
         </div>
-    
 `
     $(cardPlaceholder).append(element);
 });
