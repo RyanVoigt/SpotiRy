@@ -9,10 +9,28 @@
   0%   { opacity: 1; }
   100% { opacity: 0; }
 }
+.infotext{
+  color: #b3b3b3; 
+  text-align:center; 
+  font-weight: bold; 
+  display: block;
+}
+.readbutton {
+	border: 0px;
+	border-radius: 12px;
+	padding: 6px 12px;
+  font-size: 18px;
+	cursor: pointer;
+  background-color: #1f1f1f; 
+  border-width: 3px; 
+  border-color: #252525;
+  color: #b3b3b3; 
+  font-weight: bold;
+}
+button:focus {outline:0;}
   .bodystyle{
     background-image: linear-gradient(#383838,#191414 9%); 
-    color: #fff;
-    margin-left: 230px; /* Same as the width of the sidebar */
+    color: #fff; /* Same as the width of the sidebar */
     }
   .greenbox{
     background-color:#1db954;
@@ -27,12 +45,29 @@
     grid-auto-rows: 250px;
     row-gap: 3.5em;
     width:60%; 
-    height: 1000px;
     padding-top: 80px;
-    margin: auto
+    margin: auto;
   }
   .queue{
+    height: 1000px;
     background-image: linear-gradient(#383838,#191414 40%); 
+    margin-left: 230px;
+  }
+  .skip{
+    padding-top: 30px;
+    margin: 0 auto;
+    background-color: #1f1f1f; 
+    border-width: 3px; 
+    border-radius: 14px; 
+    border-color: #252525;
+    width: 10%;
+    height: 30px
+  }
+  .login{
+    height: 1000px;
+  }
+  .mainpage{
+    margin-left: 230px;
   }
 </style>
 
@@ -93,12 +128,26 @@
   <!-- Page content -->
   <div class="main">
   </div>
-  <div id="login">
-    <a href="/login" class="btn btn-primary">Log in with Spotify</a>
+  <div class = "login"id="login">
+    <div style = "margin: auto; width: 350px">
+      <img style = "padding-bottom: 40px; width: 90px"src="./images/spotify-logo.png"></img>
+      <h1 style = "display: inline-block;font-size: 70px; text-align: center; padding-top: 15px">SpotiRy</h1>
+    </div>
+    <div style = "margin: auto; width: 70%; background-color: #1f1f1f; border-width: 3px; border-radius: 14px; border-color: #252525 ;";  class="panel panel-default">
+      <div style = "color: #b3b3b3; font-size: 15px;font-weight: bold;" class="panel-body">
+            <div style = " width: 90%; margin: auto;text-align: center;">
+              <h3 style = "font-size: 32px;" class = "infotext">Queue Creator</h3>
+              <h4 class = "infotext">4 recomended songs are generated</h4>
+              <h4 class = "infotext">when you click a song it adds it to your queue every time you pick a song</h4>
+              <h4 class = "infotext">4 new songs are generated, this allows you to quickly generate a queue of songs you truly enjoy</h4>
+            </div>
+          </div>
+          <a style = "background-color: #1db954; border-color: #1db954;margin: auto; margin-bottom: 20px;display: block; text-align: center; width: 150px; align-items: center;"href="/login" class="btn btn-primary">Log in with Spotify</a>
+      </div> 
   </div>
   <div id="loggedin">
   <body class = "bodystyle">
-    <div class="container" style = "padding: 0px">
+    <div class="container" style = "padding: 0px; width: 100%">
           <div class="sidenav">
             <div  id="user-profile">
               <h1 style = "position: relative; text-align:center; vertical-align: middle; margin-top: 0; background-color: black; border-radius: 19px;">SpotiRy</h1>
@@ -108,12 +157,15 @@
       
               </div>
             </div>
-            <a id="interestsButton">Interests</a>
-            <a id="queueCreatorButton">Queue Creator</a>
-            <a href="#">Clients</a>
-            <a href="#">Contact</a>
+            <a style = "cursor: pointer;"id="interestsButton">Interests</a>
+            <a style = "cursor: pointer;"id="queueCreatorButton">Queue Creator</a>
+            <div style = "margin-top: 20px; background-color: #1f1f1f; width: 90%;border-width: 3px; border-radius: 14px; border-color: #252525 ;">
+              <a style = "color: white; font-weight: bold; padding-bottom: 0px; padding-top: 0px">Coming Soon</a>
+              <a style = " cursor: pointer;padding-bottom: 0px; padding-top: 0px">Recommended</a>
+              <a style = "cursor: pointer;padding-bottom: 3px; padding-top: 0px">Music Quiz</a>
+            </div>
           </div>
-          <div id = "mainPage">
+          <div class = "mainpage" id = "mainPage">
           <div class="container" style = "padding: 0px" >
             <div id="following" style = "padding-left: 20px">
               <h3 style= "font-size: 36px;color: white; position: relative; text-align:center; vertical-align: middle; margin-top: 20px;">Following</h3>
@@ -150,6 +202,16 @@
                 <div id = "song4" style = "margin: auto; padding-top: 10px; width: 65%; cursor: pointer;">
 
                 </div>
+              </div>
+              </div>
+              <span style = "display: flex; justify-content: center; padding-top: 60px" class="readBytesButtons">
+                <button id = "skip"class= "readbutton" >Skip Round</button>
+              </span>
+              <div style = "justify-content: center; padding-top: 80px">
+                <h3 style = "font-size: 32px;" class = "infotext">Queue Creator</h3>
+                <h4 class = "infotext">4 recomended songs are generated</h4>
+                <h4 class = "infotext">when you click a song it adds it to your queue every time you pick a song</h4>
+                <h4 class = "infotext">4 new songs are generated, this allows you to quickly generate a queue of songs you truly enjoy</h4>
               </div>
             </div>
          </div>

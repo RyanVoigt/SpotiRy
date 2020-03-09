@@ -263,19 +263,19 @@ function regenerate(){
     </div>
     <div style = "padding: 0; vertical-align: middle; color: #b3b3b3; font-size: 10px;font-weight: bold; text-align: center" class="panel-body">
         <ul style="list-style-type:none; padding-left: 5px">
-        <li style = "font-size: 15px">${songArray[randomnum[0]]}</li>
-        <li style = "font-size: 10px">${artistArray[randomnum[0]]}</li>
+        <li style = "font-size: 18px">${songArray[randomnum[0]]}</li>
+        <li style = "font-size: 12px">${artistArray[randomnum[0]]}</li>
         </ul>  
         </div>
     `
     var element2 = `
     <div style = " width: 100%; border-radius: 18px";>
-    <img src="${imageArray[randomnum[1]]}"; style=" curser: pointer; width: 100%; height:100%; border-radius: 18px ">
+    <img src="${imageArray[randomnum[1]]}"; style=" cursor: pointer; width: 100%; height:100%; border-radius: 18px ">
     </div>
     <div style = "padding: 0; vertical-align: middle; color: #b3b3b3; font-size: 10px;font-weight: bold; text-align: center" class="panel-body">
         <ul style="list-style-type:none; padding-left: 5px">
-        <li style = "font-size: 15px">${songArray[randomnum[1]]}</li>
-        <li style = "font-size: 10px">${artistArray[randomnum[1]]}</li>
+        <li style = "font-size: 18px">${songArray[randomnum[1]]}</li>
+        <li style = "font-size: 12px">${artistArray[randomnum[1]]}</li>
         </ul>  
         </div>
     `
@@ -285,8 +285,8 @@ function regenerate(){
     </div>
     <div style = "padding: 0; vertical-align: middle; color: #b3b3b3; font-size: 10px;font-weight: bold; text-align: center" class="panel-body">
         <ul style="list-style-type:none; padding-left: 5px">
-        <li style = "font-size: 15px">${songArray[randomnum[2]]}</li>
-        <li style = "font-size: 10px">${artistArray[randomnum[2]]}</li>
+        <li style = "font-size: 18px">${songArray[randomnum[2]]}</li>
+        <li style = "font-size: 12px">${artistArray[randomnum[2]]}</li>
         </ul>  
         </div>
     `
@@ -296,8 +296,8 @@ function regenerate(){
     </div>
     <div style = "padding: 0; vertical-align: middle; color: #b3b3b3; font-size: 10px;font-weight: bold; text-align: center" class="panel-body">
         <ul style="list-style-type:none; padding-left: 5px">
-        <li style = "font-size: 15px">${songArray[randomnum[3]]}</li>
-        <li style = "font-size: 10px">${artistArray[randomnum[3]]}</li>
+        <li style = "font-size: 18px">${songArray[randomnum[3]]}</li>
+        <li style = "font-size: 12px">${artistArray[randomnum[3]]}</li>
         </ul>  
         </div>
     `
@@ -353,6 +353,9 @@ $('#song4').click(function(){
       });
     regenerate()
 
+});
+$('#skip').click(function(){
+    regenerate()
 });
 
 document.getElementById("interestsButton").addEventListener("click", function(){
