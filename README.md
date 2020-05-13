@@ -1,5 +1,5 @@
-# Spotiry
-## [www.spotiry.com](https://spotiry.herokuapp.com/)
+# SpotiRy
+[www.SpotiRy.com](https://spotiry.herokuapp.com/)
 Spotify Wrapped is an intersting think to see, your yearly statistics for your listening habits, but have you ever wondered what your ALL TIME listening statistics are? Find what artist spoke to you the most since you've started using spotify, what song was your absolute favourite, not just your favourite this year. Spotiry also has a build in queue creator, it hand picks a selection of recommended songs based on your listening habits and allows you to generate a queue very quickly with songs that have stuck with you over the years.
 
 # Queue Creator
